@@ -1,0 +1,655 @@
+{% extends "babycareapp/nav.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BabyCare Connect - Available Services</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0 40px 0;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="1200" height="600" fill="url(%23grid)"/></svg>');
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-section p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 0;
+        }
+
+        /* Search Section */
+        .search-section {
+            position: relative;
+            margin: -40px auto 50px;
+            max-width: 700px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+            padding: 8px;
+        }
+
+        .search-container input {
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-container input:focus {
+            box-shadow: none;
+        }
+
+        .search-container button {
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .search-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .clear-btn {
+            background: #e9ecef !important;
+            color: #495057 !important;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: #dee2e6 !important;
+        }
+
+        /* Main Container */
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+
+        /* Service Card */
+        .service-card {
+            height: 100%;
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .col-sm-6:nth-child(1) .service-card {
+            animation-delay: 0.1s;
+        }
+
+        .col-sm-6:nth-child(2) .service-card {
+            animation-delay: 0.2s;
+        }
+
+        .col-sm-6:nth-child(3) .service-card {
+            animation-delay: 0.3s;
+        }
+
+        .col-sm-6:nth-child(4) .service-card {
+            animation-delay: 0.4s;
+        }
+
+        .col-sm-6:nth-child(5) .service-card {
+            animation-delay: 0.5s;
+        }
+
+        .col-sm-6:nth-child(6) .service-card {
+            animation-delay: 0.6s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-18px) scale(1.03);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.25), 0 2px 16px rgba(67, 206, 162, 0.10);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .service-image-wrapper {
+            position: relative;
+            height: 210px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-bottom: 1px solid rgba(67, 206, 162, 0.10);
+        }
+
+        .service-image {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) filter 0.3s;
+            filter: brightness(0.97) contrast(1.08);
+        }
+
+        .service-card:hover .service-image {
+            transform: scale(1.08) rotate(-1deg);
+            filter: brightness(1.03) contrast(1.12) saturate(1.1);
+        }
+
+        .service-image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 3rem;
+        }
+
+        /* Rating Badge */
+        .rating-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s both;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-20deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 28px 22px 22px 22px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover .card-title {
+            color: #667eea;
+        }
+
+        .provider-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .provider-name i {
+            animation: swing 1s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-5deg);
+            }
+
+            75% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .card-text {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        /* Price Section */
+        .price-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-display {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .price-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .price-unit {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e8f4f8;
+            color: #0066cc;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Service Tags */
+        .service-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .service-tag {
+            background: rgba(102, 126, 234, 0.85);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            animation: slideRight 0.4s ease-out both;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.10);
+        }
+
+        .service-tag:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .service-tag:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Button Styles */
+        .btn-book {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .btn-book:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-details {
+            border: 2px solid #667eea;
+            color: #667eea;
+            background: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-details:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* No Services Message */
+        .empty-state {
+            text-align: center;
+            padding: 80px 30px;
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            color: #ddd;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .empty-state h4 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .main-container {
+                padding: 25px;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-container button {
+                width: 100%;
+            }
+        }
+
+        /* Alerts */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        .alert-dismissible .btn-close {
+            animation: spinOut 0.3s ease-out forwards;
+        }
+
+        @keyframes spinOut {
+            from {
+                opacity: 1;
+                transform: rotate(0deg);
+            }
+
+            to {
+                opacity: 0;
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header-section">
+        <div class="header-content">
+            <div class="container">
+                <h1>🏥 Find Childcare Providers</h1>
+                <p>Browse and book trusted childcare services in your area</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="container">
+        <div class="search-section">
+            <form method="GET" action="{% url 'service_list' %}" class="search-container">
+                <i class="fas fa-search" style="color: #667eea; font-size: 1.2rem; margin-right: 10px;"></i>
+                <input type="text" name="q" placeholder="Search by city, area, or service type..."
+                    value="{{ query|default:'' }}" autocomplete="off">
+                <button type="submit">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                {% if query %}
+                <a href="{% url 'service_list' %}" class="clear-btn">
+                    <i class="fas fa-times"></i> Clear
+                </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Main Content -->
+        <div class="main-container">
+            <div class="row g-4">
+                {% for service in services %}
+                <div class="col-sm-6 col-lg-4">
+                    <div class="card service-card">
+                        <!-- Image Section -->
+                        <div class="service-image-wrapper">
+                            {% if service.image %}
+                            <img src="{{ service.image.url }}" class="service-image" alt="{{ service.title }}">
+                            {% else %}
+                            <div class="service-image-placeholder">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                            {% endif %}
+                            <span class="rating-badge">
+                                <i class="fas fa-star"></i> 4.8 (24)
+                            </span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.title }}</h5>
+
+                            <div class="provider-name">
+                                <i class="fas fa-user-circle"></i>
+                                {{ service.provider.first_name }}
+                            </div>
+
+                            {% if service.description %}
+                            <p class="card-text">{{ service.description|truncatewords:18 }}</p>
+                            {% endif %}
+
+                            <!-- Service Tags -->
+                            <div class="service-tags">
+                                <span class="service-tag"><i class="fas fa-check-circle"></i> Verified</span>
+                                <span class="service-tag"><i class="fas fa-award"></i> Premium</span>
+                            </div>
+
+                            <!-- Price Section -->
+                            <div class="price-section">
+                                <div class="price-display">
+                                    <span class="price-amount">${{ service.hourly_rate }}</span>
+                                    <span class="price-unit">/hour</span>
+                                </div>
+                                <span class="location-badge">
+                                    <i class="fas fa-map-marker-alt"></i> Near You
+                                </span>
+                            </div>
+
+                            <!-- Location -->
+                            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">
+                                <i class="fas fa-location-dot"></i> {{ service.location }}
+                            </p>
+
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'create_booking' service.id %}" class="btn-book">
+                                    <i class="fas fa-calendar-check"></i> Book Now
+                                </a>
+                                <a href="{% url 'service_detail' service.id %}" class="btn-details">
+                                    <i class="fas fa-info-circle"></i> View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4>No Services Found</h4>
+                        <p>There are no childcare services available in that location. Try searching a different area!
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+{% endblock content %}

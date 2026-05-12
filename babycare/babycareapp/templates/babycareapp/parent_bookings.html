@@ -1,0 +1,144 @@
+{% extends "babycareapp/nav.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - BabyCare Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- AOS Animation CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <style>
+        body {
+            background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+            min-height: 100vh;
+        }
+        .table-responsive[data-aos] {
+            /* Animate table entrance */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        .aos-animate.table-responsive[data-aos] {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Animated badge pulse */
+        .badge[data-aos] {
+            animation: pulse-badge 1.2s infinite alternate;
+        }
+        @keyframes pulse-badge {
+            0% { box-shadow: 0 0 0 0 rgba(67,206,162,0.3); }
+            100% { box-shadow: 0 0 12px 4px rgba(67,206,162,0.18); }
+        }
+        /* Glassmorphism Table */
+        .glass-table {
+            background: rgba(255,255,255,0.7);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.18);
+            overflow: hidden;
+        }
+        .glass-table thead th {
+            background: rgba(102, 126, 234, 0.12) !important;
+            color: #2c3e50;
+            font-weight: 700;
+            border: none;
+        }
+        .glass-table tbody tr {
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .glass-table tbody tr:hover {
+            background: rgba(67, 206, 162, 0.08);
+            box-shadow: 0 2px 12px rgba(67, 206, 162, 0.10);
+        }
+        .glass-table td, .glass-table th {
+            border: none !important;
+            vertical-align: middle;
+        }
+        .glass-table td {
+            font-size: 1.05rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="mb-4 " data-aos="fade-down">My Childcare Bookings</h2>
+                {% if bookings %}
+                    <div class="table-responsive" data-aos="fade-up" data-aos-delay="150">
+                        <table class="table glass-table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Provider</th>
+                                    <th>Rate</th>
+                                    <th>Status</th>
+                                    <th>Payment</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for b in bookings %}
+                                <tr data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                                    <td><strong>{{ b.service.title }}</strong></td>
+                                    <td>{{ b.service.provider.first_name }}</td>
+                                    <td>${{ b.service.hourly_rate }}/hr</td>
+                                    <td>
+                                        {% if b.status == 'pending' %}
+                                            <span class="badge bg-warning text-dark" data-aos="pulse">Pending</span>
+                                        {% elif b.status == 'confirmed' %}
+                                            <span class="badge bg-info" data-aos="pulse">Confirmed</span>
+                                        {% elif b.status == 'paid' %}
+                                            <span class="badge bg-success" data-aos="pulse">Paid</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary" data-aos="pulse">{{ b.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if b.status == 'confirmed' %}
+                                            <small class="text-warning">Pending</small>
+                                        {% elif b.status == 'paid' %}
+                                            <small class="text-success">✓ Paid</small>
+                                        {% else %}
+                                            <small class="text-muted">Awaiting</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if b.status == 'paid' %}
+                                            <a href="{% url 'view_invoice' b.id %}" class="btn btn-sm btn-outline-danger" title="View Invoice">
+                                                <i class="bi bi-file-earmark-pdf"></i> Receipt
+                                            </a>
+                                        {% else %}
+                                            <small class="text-muted">—</small>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info" role="alert" data-aos="fade-in">
+                        <i class="bi bi-info-circle"></i> You haven't made any bookings yet. <a href="{% url 'service_list' %}" class="alert-link">Browse services</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- AOS Animation JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 900,
+            once: true
+        });
+    </script>
+</body>
+</html>
+{% endblock content %}

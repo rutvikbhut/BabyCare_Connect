@@ -1,0 +1,75 @@
+{% extends "babycareapp/nav.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <div class="container mt-5">
+    <h1 class="mb-4">Platform Overview</h1>
+    
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card bg-dark text-white shadow-sm">
+                <div class="card-body">
+                    <h6>Total Transaction Vol.</h6>
+                    <h2 class="display-6">${{ total_revenue }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    <h6>Parents / Providers</h6>
+                    <h2 class="display-6">{{ total_parents }} / {{ total_providers }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-success text-white shadow-sm">
+                <div class="card-body">
+                    <h6>Total Bookings</h6>
+                    <h2 class="display-6">{{ total_bookings }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h3>Top Performing Services</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Service Title</th>
+                    <th>Provider</th>
+                    <th>Total Bookings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in top_services %}
+                <tr>
+                    <td>{{ service.title }}</td>
+                    <td>{{ service.provider.first_name }}</td>
+                    <td>{{ service.num_bookings }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+    <div class="card bg-warning text-dark shadow-sm">
+        <div class="card-body">
+            <h6>Admin Profit ({{ commission_percent }}%)</h6>
+            <h2 class="display-6">${{ total_profit|floatformat:2 }}</h2>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+{% endblock content %}

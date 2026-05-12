@@ -1,0 +1,269 @@
+{% extends "babycareapp/nav.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <title>Registration</title>
+    {% comment %} {% if saved %}
+      <script>
+        alert("{{ saved }}");
+      </script>
+    {% endif %} {% endcomment %}
+    {% if error %}
+      <script>
+        alert("{{ error }}");
+      </script>
+    {% endif %}
+
+  </head>
+<body>
+
+
+
+<form action="" method="post" onsubmit="return checkPassword()" data-aos="zoom-in">
+  {% csrf_token %}  
+<section class="vh-200" style="background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%); min-height: 100vh;">
+  <div class="container h-100 ">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5 glass-card" data-aos="fade-up">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                   
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    
+                    <div data-mdb-input-init class="form-outline flex-fill mb-0 input-group">
+                      {% comment %} <label class="form-label " for="form3Example1c">Your Name</label> {% endcomment %}
+                      <span class="input-group-text"><i class="fas fa-user fa-lg me-3 fa-fw"></i></span>
+                      <input type="text" id="form3Example1c" class="form-control" name="name" placeholder="Name" />
+                     
+
+              {% if error5 %}
+              <p style="color:red;">{{ error5 }}</p>  
+              {% endif %}
+              {% if error17 %}
+              <p style="color:red;">{{ error17 }}</p>  
+              {% endif %}
+              {% if error18 %}
+              <p style="color:red;">{{ error18 }}</p>  
+              {% endif %}
+               {% if error20 %}
+              <p style="color:red;">{{ error20 }}</p>  
+              {% endif %}
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    
+                    <div data-mdb-input-init class="form-outline flex-fill mb-0 input-group">
+                      {% comment %} <label class="form-label" for="form3Example3c">Your Email</label> {% endcomment %}
+                      <span class="input-group-text"><i class="fas fa-envelope fa-lg me-3 fa-fw"></i></span>
+                      <input type="email" id="form3Example3c" class="form-control " name="email" placeholder="Email" />
+                      
+              {% if error6 %}
+              <p style="color:red;">{{ error6 }}</p>  
+              {% endif %}
+               {% if error11 %}
+              <p style="color:red;">{{ error11 }}</p>  
+              {% endif %}
+              {% if error19 %}
+              <p style="color:red;">{{ error19 }}</p>  
+              {% endif %}
+               {% if error21 %}
+              <p style="color:red;">{{ error21 }}</p>  
+              {% endif %}
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    
+                    <div data-mdb-input-init class="form-outline flex-fill mb-0 input-group">
+                      {% comment %} <label class="form-label" for="form3Example4c">Password</label> {% endcomment %}
+                       <span class="input-group-text"><i class="fas fa-lock fa-lg me-3 fa-fw"></i></span>
+                      <input type="password" id="password" name="password" class="form-control" placeholder="Password"  />
+                     
+              {% if error7 %}
+              <p style="color:red;">{{ error7 }}</p>  
+              {% endif %}
+               {% if error12 %}
+              <p style="color:red;">{{ error12 }}</p>  
+              {% endif %}
+              {% if error14 %}
+              <p style="color:red;">{{ error14 }}</p>  
+              {% endif %}
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4 ">
+                   
+                    <div data-mdb-input-init class="form-outline flex-fill mb-0 input-group">
+                      {% comment %} <label class="form-label" for="form3Example4cd">Repeat your password</label> {% endcomment %}
+                       <span class="input-group-text"> <i class="fas fa-key fa-lg me-3 fa-fw"></i></span>
+                      <input type="password" id="repassword" name="repassword" class="form-control" placeholder="Repeat password"  />
+                     
+              {% if error8 %}
+              <p style="color:red;">{{ error8 }}</p>  
+              {% endif %}
+               {% if error13 %}
+              <p style="color:red;">{{ error13 }}</p>  
+              {% endif %}
+              {% if error15 %}
+              <p style="color:red;">{{ error15 }}</p>  
+              {% endif %}
+              {% if error16 %}
+              <p style="color:red;">{{ error16 }}</p>  
+              {% endif %}
+               {% if error22 %}
+              <p style="color:red;">{{ error22 }}</p>  
+              {% endif %}
+                    </div>
+                  </div>
+                                    <div class="mb-3">
+                    <label>I am a:</label>
+                    <select name="role" class="form-control">
+                        <option value="parent">Parent</option>
+                        <option value="provider">Provider</option>
+                    </select>
+                    <small class="text-danger">{{ errors.role_err }}</small>
+                  </div>
+
+
+                  <div id="error-msg" class="alert alert-danger" style="display:none;"></div>
+                  
+
+                  <div class="form-check d-flex justify-content-center mb-5">
+                    <input class="form-check-input me-2" type="checkbox" value="1" id="termsCheck" name="terms" required />
+                    <label class="form-check-label" for="termsCheck">
+                      I agree all statements in <a href="#!">Terms of service</a>
+                    </label>
+                  </div>
+ 
+{% comment %} {% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ error }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}  {% endcomment %}
+
+
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
+                  </div>
+                  
+                </form>
+
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2" data-aos="fade-left">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                  class="img-fluid" alt="Sample image">
+              </div>
+            <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+            <script>
+              AOS.init({
+                duration: 900,
+                once: true
+              });
+            </script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</form>
+
+
+<script>
+function checkPassword() {
+    const pass = document.getElementById("password").value;
+    const repass = document.getElementById("repassword").value;
+    const errorDiv = document.getElementById("error-msg");
+    const name = document.getElementById("form3Example1c").value.trim();
+    const email = document.getElementById("form3Example3c").value.trim();
+    const terms = document.getElementById("termsCheck").checked;
+
+    // Clear previous error
+    errorDiv.style.display = "none";
+    errorDiv.innerText = "";
+
+    // Validation
+    if (!name) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "Please enter your name";
+        return false;
+    }
+    
+    if (!email) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "Please enter your email";
+        return false;
+    }
+    
+    if (!email.includes("@")) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "Please enter a valid email address";
+        return false;
+    }
+
+    if (!pass) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "Please enter a password";
+        return false;
+    }
+
+    if (pass.length < 6) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "Password must be at least 6 characters long";
+        return false;
+    }
+
+    if (!repass) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "Please confirm your password";
+        return false;
+    }
+
+    if (pass !== repass) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "Passwords do not match";
+        return false;
+    }
+
+    if (!terms) {
+        errorDiv.style.display = "block";
+        errorDiv.innerText = "You must agree to the Terms of Service";
+        return false;
+    }
+
+    return true;
+}
+
+// Real-time password match feedback
+document.getElementById("repassword")?.addEventListener("input", function() {
+    const pass = document.getElementById("password").value;
+    const repass = this.value;
+    const input = this;
+    
+    if (pass && repass) {
+        if (pass === repass) {
+            input.classList.remove("is-invalid");
+            input.classList.add("is-valid");
+        } else {
+            input.classList.remove("is-valid");
+            input.classList.add("is-invalid");
+        }
+    }
+});
+</script>
+
+</body>
+</html>
+{% endblock content %}

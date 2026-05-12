@@ -1,0 +1,316 @@
+{% extends "babycareapp/nav.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+    :root {
+        --primary-brand: #FF6B6B; 
+        --secondary-brand: #fff1f1;
+        --accent-pink: #ff85a2;
+        --dark-brand: #2C3E50;
+        --secondary-color: #4ECDC4;
+    }
+
+    body {
+        background-color: #ffffff;
+        background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+    }
+
+    /* Simple visibility for everything first */
+    .hero-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{% static 'images/about_hero.png' %}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        padding: 220px 0 160px;
+        color: #ffffff !important;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+        pointer-events: none;
+    }
+
+    .hero-section h1 {
+        font-size: 5rem;
+        font-weight: 800;
+        margin-bottom: 25px;
+        color: #ffffff !important;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        display: block !important;
+        opacity: 1 !important;
+        letter-spacing: -1px;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-section p {
+        font-size: 1.8rem;
+        color: #ffffff !important;
+        display: block !important;
+        opacity: 1 !important;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        font-weight: 300;
+        animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Scroll reveal logic remains for body sections only */
+    .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease-out;
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .section-title {
+        color: var(--primary-brand);
+        font-weight: 800;
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .blob-image-container {
+        position: relative;
+        background: var(--secondary-brand);
+        border-radius: 50% 50% 30% 70% / 50% 30% 70% 50%;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .blob-image-container img {
+        width: 100%;
+        height: 550px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .feature-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 40px 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border: 1px solid #eee;
+        height: 100%;
+        transition: 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(74, 144, 226, 0.2);
+        border-color: var(--primary-brand);
+    }
+
+    .feature-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        background: var(--secondary-brand);
+        color: var(--primary-brand);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        margin: 0 auto 20px;
+    }
+
+    .list-item-custom {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .list-item-custom i {
+        color: var(--primary-brand);
+        font-size: 1.3rem;
+        margin-top: 4px;
+    }
+
+    .cta-area {
+        background: linear-gradient(135deg, var(--primary-brand), var(--dark-brand));
+        color: white;
+        padding: 80px 0;
+        border-radius: 30px;
+        margin-top: 50px;
+    }
+</style>
+
+<!-- Hero -->
+<section class="hero-section">
+    <div class="container">
+        <h1>About BabyCare Connect</h1>
+        <p>Expert Childcare Support for Modern Families</p>
+    </div>
+</section>
+
+<!-- Introduction -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="text-primary fw-bold text-uppercase" style="letter-spacing: 2px;">Welcome to BabyCare Connect</span>
+                <h2 class="section-title">Nurturing Your Child's Future with Professional Care</h2>
+                <p class="lead">We provide trusted, specialized caregiving services for infants, toddlers, and young children in the comfort of your home.</p>
+                <p class="text-muted">Established in 2018, we have become a leading name in childhood support. Our mission is to alleviate the stress of parenting by providing access to highly trained, verified nannies and developmental experts.</p>
+                <div class="row mt-4">
+                    <div class="col-sm-6 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span class="fw-bold">Background Verified</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span class="fw-bold">Expert Training</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span class="fw-bold">24/7 Availability</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span class="fw-bold">Safe & Trusted</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="blob-image-container">
+                    <img src="https://images.unsplash.com/photo-1544126592-807daa2b565b?auto=format&fit=crop&q=80&w=800" alt="Childcare Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Why Parents Trust Us</h2>
+            <p class="text-muted">High-quality care designed around your family</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 reveal">
+                <div class="feature-card text-center">
+                    <div class="feature-icon-wrapper"><i class="fas fa-shield-alt"></i></div>
+                    <h4>Rigorous Vetting</h4>
+                    <p class="text-muted">All our nannies undergo extensive background checks and medical screenings before being listed.</p>
+                </div>
+            </div>
+            <div class="col-md-4 reveal">
+                <div class="feature-card text-center">
+                    <div class="feature-icon-wrapper"><i class="fas fa-heart"></i></div>
+                    <h4>Compassionate Care</h4>
+                    <p class="text-muted">We select caregivers who truly love children and are dedicated to their happiness and growth.</p>
+                </div>
+            </div>
+            <div class="col-md-4 reveal">
+                <div class="feature-card text-center">
+                    <div class="feature-icon-wrapper"><i class="fas fa-user-graduate"></i></div>
+                    <h4>Trained Specialists</h4>
+                    <p class="text-muted">Our team is trained in basic pediatric First Aid, infant nutrition, and developmental play.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services List -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 order-lg-2">
+                <h2 class="section-title">Comprehensive Parenting Support</h2>
+                <p class="text-muted">We offer a variety of services to meet every parental requirement:</p>
+                <div class="list-item-custom reveal">
+                    <i class="fas fa-baby"></i>
+                    <div>
+                        <strong>Newborn Assistance:</strong> Expert support for feeding schedules, sleep hygiene, and basic infant care.
+                    </div>
+                </div>
+                <div class="list-item-custom reveal">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <div>
+                        <strong>Early Learning:</strong> Game-based learning to stimulate your child's brain and motor development.
+                    </div>
+                </div>
+                <div class="list-item-custom reveal">
+                    <i class="fas fa-notes-medical"></i>
+                    <div>
+                        <strong>Health Tracking:</strong> Consistent monitoring of growth milestones and nutritional requirements.
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'service_list' %}" class="btn btn-primary px-4 py-2">View All Services</a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=800" class="img-fluid rounded-4 shadow" alt="Support Image">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="container mb-5">
+    <section class="cta-area text-center">
+        <div class="container px-4">
+            <h2 class="display-6 fw-bold">Ready to Find the Perfect Nanny?</h2>
+            <p class="lead mb-4">Join hundreds of families who have found peace of mind with BabyCare Connect.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5 fw-bold">Get Started</a>
+                <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-5">Contact Us</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Reveal Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(r => observer.observe(r));
+    });
+</script>
+
+{% endblock content %}
+
+
+
+

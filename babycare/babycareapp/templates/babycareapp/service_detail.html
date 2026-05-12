@@ -1,0 +1,655 @@
+{% extends "babycareapp/nav.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .bread-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .bread-nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .bread-nav a:hover {
+            opacity: 0.7;
+        }
+
+        /* Main Container */
+        .detail-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.8s ease-out;
+            margin-bottom: 50px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 50px;
+        }
+
+        /* Image Section */
+        .image-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-image-wrapper {
+            position: relative;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: imageSlide 0.8s ease-out;
+            margin-bottom: 20px;
+        }
+
+        @keyframes imageSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .service-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-image-wrapper:hover .service-image {
+            transform: scale(1.08);
+        }
+
+        .no-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 4rem;
+        }
+
+        /* Rating Badge on Image */
+        .rating-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-20deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Image Gallery Thumbnail */
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+        }
+
+        .gallery-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-thumb:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Content Section */
+        .content-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-header {
+            margin-bottom: 20px;
+            animation: slideRight 0.8s ease-out;
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .service-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-title i {
+            color: #667eea;
+            animation: swing 1s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .service-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .price-badge {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            width: fit-content;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .price-amount {
+            font-size: 1.8rem;
+        }
+
+        .price-unit {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .description-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .description-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .description-title i {
+            color: #667eea;
+        }
+
+        .description-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Provider Card */
+        .provider-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            animation: slideUp 0.8s ease-out 0.4s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .provider-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .provider-info {
+            position: relative;
+            z-index: 1;
+        }
+
+        .provider-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .online-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .provider-detail {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            margin: 5px 0;
+        }
+
+        /* Availability Card */
+        .availability-card {
+            background: white;
+            border: 2px solid #e74c3c;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            animation: slideUp 0.8s ease-out 0.5s both;
+        }
+
+        .availability-header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .availability-header i {
+            font-size: 1.2rem;
+        }
+
+        .availability-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .availability-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .availability-item:last-child {
+            border-bottom: none;
+        }
+
+        .availability-item:hover {
+            background: #f8f9fa;
+        }
+
+        .availability-item.available {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .availability-item.unavailable {
+            color: #e74c3c;
+        }
+
+        /* Buttons Section */
+        .button-section {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-book {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-book:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-message {
+            flex: 1;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-message:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .button-hint {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .service-title {
+                font-size: 2rem;
+            }
+
+            .button-section {
+                flex-direction: column;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Breadcrumb Navigation -->
+    <div class="header-section">
+        <div class="container">
+            <div class="bread-nav">
+                <a href="{% url 'service_list' %}">
+                    <i class="fas fa-arrow-left"></i> Back to Services
+                </a>
+                <span>|</span>
+                <span>Service Details</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Detail Container -->
+    <div class="container">
+        <div class="detail-container">
+            <div class="detail-grid">
+                <!-- Image Section -->
+                <div class="image-section">
+                    <div class="service-image-wrapper">
+                        {% if service.image %}
+                            <img src="{{ service.image.url }}" class="service-image" alt="{{ service.title }}">
+                        {% else %}
+                            <div class="no-image">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                        {% endif %}
+                        <div class="rating-overlay">
+                            <i class="fas fa-star"></i> 4.8 (24 reviews)
+                        </div>
+                    </div>
+
+                    <!-- Image Gallery -->
+                    <div class="image-gallery">
+                        <div class="gallery-thumb">
+                            {% if service.image %}
+                                <img src="{{ service.image.url }}" alt="Thumb 1">
+                            {% else %}
+                                <div style="background: #667eea; width: 100%; height: 100%;"></div>
+                            {% endif %}
+                        </div>
+                        <div class="gallery-thumb">
+                            <img src="https://via.placeholder.com/60" alt="Thumb 2">
+                        </div>
+                        <div class="gallery-thumb">
+                            <img src="https://via.placeholder.com/60" alt="Thumb 3">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Section -->
+                <div class="content-section">
+                    <!-- Header -->
+                    <div class="service-header">
+                        <h1 class="service-title">
+                            <i class="fas fa-star"></i>{{ service.title }}
+                        </h1>
+                        <div class="service-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <strong>{{ service.location }}</strong>
+                        </div>
+                    </div>
+
+                    <!-- Price Badge -->
+                    <div class="price-badge">
+                        <span class="price-amount">${{ service.hourly_rate }}</span>
+                        <span class="price-unit">/hour</span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="description-section">
+                        <div class="description-title">
+                            <i class="fas fa-info-circle"></i> About This Service
+                        </div>
+                        <p class="description-text">{{ service.description }}</p>
+                    </div>
+
+                    <!-- Provider Card -->
+                    <div class="provider-card">
+                        <div class="provider-info">
+                            <div class="provider-name">
+                                <i class="fas fa-user-circle"></i>
+                                {{ service.provider.first_name }}
+                                {% if service.provider.is_online %}
+                                    <span class="online-badge">
+                                        <div class="online-dot"></div>
+                                        Online
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <p class="provider-detail">
+                                <i class="fas fa-calendar"></i> Member since {{ service.created_at|date:"F Y" }}
+                            </p>
+                            <p class="provider-detail">
+                                <i class="fas fa-medal"></i> Professional Childcare Provider
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Availability Card -->
+                    <div class="availability-card">
+                        <div class="availability-header">
+                            <i class="fas fa-calendar-xmark"></i>
+                            Unavailable Dates
+                        </div>
+                        <ul class="availability-list">
+                            {% for date in blocked_dates %}
+                                <li class="availability-item unavailable">
+                                    <i class="fas fa-calendar-days"></i> {{ date|date:"D, M d, Y" }}
+                                </li>
+                            {% empty %}
+                                <li class="availability-item available">
+                                    <i class="fas fa-check-circle"></i> Available for all dates!
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="button-section">
+                        <a href="{% url 'create_booking' service.id %}" class="btn-book">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </a>
+                        <a href="{% url 'chat_room' service.provider.id %}" class="btn-message">
+                            <i class="fas fa-message"></i> Message Provider
+                        </a>
+                    </div>
+                    <p class="button-hint">Secure your spot or chat with the provider before booking</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

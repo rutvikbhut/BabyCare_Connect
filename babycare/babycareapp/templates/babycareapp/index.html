@@ -1,0 +1,1102 @@
+{% extends "babycareapp/nav.html" %} {% block content %} {% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BabyCare Connect</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+      :root {
+        --primary: #FF6B6B;
+        --secondary: #4ECDC4;
+        --accent: #FFE66D;
+        --dark: #2C3E50;
+        --light: #F8F9FA;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FFB347 100%);
+        color: white;
+        padding: 120px 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+      }
+
+      .hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -5%;
+        width: 400px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+      }
+
+      .hero .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        opacity: 0.95;
+      }
+
+      .hero .btn {
+        font-weight: 600;
+        padding: 12px 30px;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+      }
+
+      .hero .btn-light:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Welcome Section */
+      .welcome-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px 0;
+        margin: 0;
+      }
+
+      .welcome-section h4 {
+        font-weight: 700;
+        font-size: 1.3rem;
+      }
+
+      .welcome-section .btn-small {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid white;
+        color: white;
+      }
+
+      .welcome-section .btn-small:hover {
+        background: white;
+        color: #667eea;
+      }
+
+      /* Service Cards */
+      .service-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .service-card img {
+        height: 250px;
+        object-fit: cover;
+      }
+
+      .service-card .card-body {
+        padding: 25px;
+      }
+
+      .service-card h5 {
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+      }
+
+      .service-card p {
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      /* Feature Cards */
+      .feature-card {
+        border: none;
+        border-radius: 12px;
+        padding: 30px 20px;
+        text-align: center;
+        background: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        height: 100%;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .feature-card i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .feature-card h5 {
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--dark);
+      }
+
+      .feature-card p {
+        color: #666;
+        font-size: 0.95rem;
+      }
+
+      /* Stats Section */
+      .stats-section {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FFB347 100%);
+        color: white;
+        padding: 60px 20px;
+      }
+
+      .stat-item h3 {
+        font-size: 2.5rem;
+        font-weight: 800;
+      }
+
+      .stat-item p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 30px;
+      }
+
+      .cta-section .btn {
+        padding: 15px 40px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+      }
+
+      .cta-section .btn:hover {
+        transform: scale(1.05);
+        animation: rainbowBorder 2.5s ease-in-out infinite;
+        box-shadow: 0 0 30px rgba(255, 107, 107, 0.5) !important;
+      }
+
+      /* Footer */
+      .footer {
+        background: var(--dark);
+        color: white;
+        padding: 50px 20px 20px;
+      }
+
+      .footer h6 {
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--primary);
+      }
+
+      .footer a {
+        color: #bbb;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer a:hover {
+        color: white;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #444;
+        padding-top: 20px;
+        margin-top: 30px;
+        text-align: center;
+        color: #999;
+      }
+
+      /* Section Spacing */
+      .section-padding {
+        padding: 80px 20px;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 50px;
+        color: var(--dark);
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes bounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes countUp {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -1000px 0;
+        }
+        100% {
+          background-position: 1000px 0;
+        }
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Apply animations */
+      .hero h1 {
+        animation: slideInLeft 1s ease-out;
+      }
+
+      .hero p {
+        animation: slideInRight 1s ease-out 0.2s both;
+      }
+
+      .hero .btn {
+        animation: fadeInUp 1s ease-out 0.4s both;
+      }
+
+      .service-card {
+        animation: fadeInUp 0.8s ease-out both;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        visibility: visible;
+        opacity: 1;
+        display: block;
+      }
+
+      .service-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .service-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .service-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .service-card img {
+        transition: transform 0.5s ease;
+      }
+
+      .service-card:hover img {
+        transform: scale(1.1) rotate(2deg);
+      }
+
+      .service-card:not(.hidden):hover {
+        animation: shadowRainbow 3s ease-in-out forwards;
+        border: 2px solid transparent;
+        background: white;
+        visibility: visible;
+        opacity: 1;
+        display: block;
+      }
+
+      .feature-card {
+        animation: fadeInUp 0.8s ease-out both;
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 12px;
+        padding: 30px 20px;
+        text-align: center;
+        background: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        height: 100%;
+        visibility: visible;
+        opacity: 1;
+        display: block;
+      }
+
+      .feature-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .feature-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .feature-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .feature-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .feature-card:hover i {
+        animation: rainbowText 2s ease-in-out forwards;
+      }
+
+      .feature-card:hover {
+        animation: shadowRainbow 3s ease-in-out forwards;
+        border: 2px solid;
+        border-image: linear-gradient(135deg, #FF6B6B, #FFB347, #4ECDC4, #667eea, #FF6B6B) 1;
+        visibility: visible;
+        opacity: 1;
+        display: block;
+      }
+
+      .feature-card:hover h5 {
+        animation: rainbowText 2.5s ease-in-out forwards;
+      }
+
+      .stat-item {
+        animation: fadeInUp 0.8s ease-out both;
+        visibility: visible;
+        opacity: 1;
+        display: block;
+      }
+
+      .stat-item:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .stat-item:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .stat-item:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .stat-item:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .stat-item h3 {
+        animation: countUp 2s ease-out 0.6s both;
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .section-title {
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      .section-subtitle {
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+
+      .welcome-section h4 {
+        animation: slideInLeft 0.8s ease-out;
+      }
+
+      .welcome-section .btn-small {
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+
+      .cta-section h2 {
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      .cta-section p {
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+
+      .cta-section .btn {
+        animation: bounce 2s ease-in-out infinite 0.4s;
+      }
+
+      .cta-section .btn:hover {
+        animation: rainbowBorder 2.5s ease-in-out forwards;
+      }
+
+      .hero .btn:hover {
+        animation: colorShift 1.5s ease-in-out forwards;
+        box-shadow: 0 15px 30px rgba(255, 107, 107, 0.3), 0 0 20px rgba(255, 179, 71, 0.2) !important;
+      }
+
+      .footer a:hover {
+        color: white;
+        animation: rainbowText 1.5s ease-in-out forwards;
+      }
+
+      /* Scroll reveal animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Parallax-like effect on hover */
+      .hero {
+        position: relative;
+      }
+
+      /* Icon animations */
+      .hero i, .feature-card i {
+        transition: transform 0.3s ease;
+      }
+
+      .hero .btn:hover i {
+        animation: float 0.6s ease-in-out;
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Card tilt effect on hover */
+      .service-card:hover,
+      .feature-card:hover {
+        perspective: 1000px;
+      }
+
+      /* Loading animation for images */
+      .service-card img {
+        animation: fadeInUp 0.6s ease-out;
+      }
+
+      /* Disable hover animations on hidden elements */
+      .hidden,
+      [style*="display: none"],
+      .d-none {
+        pointer-events: none !important;
+        animation: none !important;
+      }
+
+      .hidden:hover,
+      [style*="display: none"]:hover,
+      .d-none:hover {
+        animation: none !important;
+        transform: none !important;
+        box-shadow: none !important;
+      }
+
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        pointer-events: none;
+        animation: rippleAnimation 0.6s ease-out;
+      }
+
+      @keyframes rippleAnimation {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+
+      /* Rainbow Gradient Animations */
+      @keyframes rainbowGradient {
+        0% {
+          background: linear-gradient(45deg, #FF6B6B, #FFB347);
+        }
+        25% {
+          background: linear-gradient(45deg, #FFB347, #FFE66D);
+        }
+        50% {
+          background: linear-gradient(45deg, #4ECDC4, #FFE66D);
+        }
+        75% {
+          background: linear-gradient(45deg, #667eea, #4ECDC4);
+        }
+        100% {
+          background: linear-gradient(45deg, #FF6B6B, #667eea);
+        }
+      }
+
+      @keyframes rainbowBorder {
+        0% {
+          border-color: #FF6B6B;
+          box-shadow: 0 0 10px #FF6B6B, inset 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+        25% {
+          border-color: #FFB347;
+          box-shadow: 0 0 15px #FFB347, inset 0 0 15px rgba(255, 179, 71, 0.3);
+        }
+        50% {
+          border-color: #4ECDC4;
+          box-shadow: 0 0 15px #4ECDC4, inset 0 0 15px rgba(78, 205, 196, 0.3);
+        }
+        75% {
+          border-color: #667eea;
+          box-shadow: 0 0 15px #667eea, inset 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+        100% {
+          border-color: #FF6B6B;
+          box-shadow: 0 0 10px #FF6B6B, inset 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+      }
+
+      @keyframes rainbowText {
+        0% {
+          color: #FF6B6B;
+          text-shadow: 0 0 10px #FF6B6B;
+        }
+        25% {
+          color: #FFB347;
+          text-shadow: 0 0 10px #FFB347;
+        }
+        50% {
+          color: #4ECDC4;
+          text-shadow: 0 0 10px #4ECDC4;
+        }
+        75% {
+          color: #667eea;
+          text-shadow: 0 0 10px #667eea;
+        }
+        100% {
+          color: #FF6B6B;
+          text-shadow: 0 0 10px #FF6B6B;
+        }
+      }
+
+      @keyframes colorShift {
+        0% {
+          filter: hue-rotate(0deg) saturate(1);
+        }
+        50% {
+          filter: hue-rotate(180deg) saturate(1.5);
+        }
+        100% {
+          filter: hue-rotate(360deg) saturate(1);
+        }
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @keyframes shadowRainbow {
+        0% {
+          box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4), 0 0 20px rgba(255, 107, 107, 0.2);
+        }
+        25% {
+          box-shadow: 0 10px 25px rgba(255, 179, 71, 0.4), 0 0 20px rgba(255, 179, 71, 0.2);
+        }
+        50% {
+          box-shadow: 0 10px 25px rgba(78, 205, 196, 0.4), 0 0 20px rgba(78, 205, 196, 0.2);
+        }
+        75% {
+          box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4), 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+        100% {
+          box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4), 0 0 20px rgba(255, 107, 107, 0.2);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1 class="display-4 fw-bold">
+          Trusted Childcare, Connected Digitally
+        </h1>
+        <p class="lead fs-5">
+          Connect with verified childcare providers, book services, and manage payments all in one place
+        </p>
+        {% if request.user.is_authenticated %}
+          {% if request.user.role == 'parent' %}
+            <a href="{% url 'service_list' %}" class="btn btn-light btn-lg me-3">
+              <i class="fas fa-search me-2"></i>Browse Services
+            </a>
+            <a href="{% url 'user_profile' %}" class="btn btn-outline-light btn-lg">
+              <i class="fas fa-user me-2"></i>My Profile
+            </a>
+          {% elif request.user.role == 'provider' %}
+            <a href="{% url 'provider_dashboard' %}" class="btn btn-light btn-lg me-3">
+              <i class="fas fa-chart-pie me-2"></i>Dashboard
+            </a>
+            <a href="{% url 'user_profile' %}" class="btn btn-outline-light btn-lg">
+              <i class="fas fa-user me-2"></i>My Profile
+            </a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'service_list' %}" class="btn btn-light btn-lg me-3">
+            <i class="fas fa-search me-2"></i>Find Services
+          </a>
+          <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-sign-in-alt me-2"></i>Get Started
+          </a>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Welcome Section -->
+    {% if request.user.is_authenticated %}
+    <div class="welcome-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h4>
+              <i class="fas fa-wave-hand me-2"></i>
+              Welcome back, <strong>{{ request.user.first_name|default:"Friend" }}</strong>!
+            </h4>
+          </div>
+          <div class="col-md-6 text-md-end mt-3 mt-md-0">
+            <a href="{% url 'user_profile' %}" class="btn btn-sm btn-small me-2">
+              <i class="fas fa-user me-1"></i> Profile
+            </a>
+            <a href="{% url 'inbox' %}" class="btn btn-sm btn-small">
+              <i class="fas fa-envelope me-1"></i> Messages
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Featured Services Section -->
+    <section class="section-padding" style="background: white;">
+      <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Browse our comprehensive childcare solutions</p>
+        
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card">
+              <img
+                src="https://media.istockphoto.com/id/1458807880/photo/learning-through-play.jpg?s=612x612&w=0&k=20&c=W6mHfbgZXfGF4UbYn3FqP4BN_347dLD5Q9RvB6Yx1SQ="
+                class="card-img-top"
+                alt="Childcare Service"
+              />
+              <div class="card-body">
+                <h5><i class="fas fa-baby me-2"></i>Child Care Services</h5>
+                <p class="card-text">
+                  Professional care for babies and toddlers with trained caregivers, safe environments, and loving attention.
+                </p>
+                <a href="{% url 'service_list' %}" class="btn btn-sm" style="background: var(--primary); color: white;">
+                  View Services
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card">
+              <img
+                src="https://shradhanursing.com/gall/services-16.jpg"
+                class="card-img-top"
+                alt="Health Service"
+              />
+              <div class="card-body">
+                <h5><i class="fas fa-heart me-2"></i>Health & Safety Services</h5>
+                <p class="card-text">
+                  Comprehensive health monitoring, first aid support, and safety protocols to ensure your child's wellbeing.
+                </p>
+                <a href="{% url 'service_list' %}" class="btn btn-sm" style="background: var(--primary); color: white;">
+                  View Services
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="service-card">
+              <img
+                src="https://static.vecteezy.com/system/resources/thumbnails/071/811/087/small/a-young-child-enjoys-stacking-blocks-on-a-carpet-while-an-attentive-adult-encourages-play-in-a-cheerful-learning-environment-filled-with-toys-and-bright-colors-photo.jpeg"
+                class="card-img-top"
+                alt="Learning Service"
+              />
+              <div class="card-body">
+                <h5><i class="fas fa-graduation-cap me-2"></i>Learning & Development</h5>
+                <p class="card-text">
+                  Play-based education and skill development programs to support early childhood growth and creativity.
+                </p>
+                <a href="{% url 'service_list' %}" class="btn btn-sm" style="background: var(--primary); color: white;">
+                  View Services
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section-padding" style="background: var(--light);">
+      <div class="container">
+        <h2 class="section-title">Why Choose BabyCare Connect?</h2>
+        <p class="section-subtitle">We make childcare simple, safe, and reliable</p>
+        
+        <div class="row g-4">
+          <div class="col-lg-3 col-md-6">
+            <div class="feature-card">
+              <i class="fas fa-shield-alt"></i>
+              <h5>Verified Providers</h5>
+              <p>All caregivers are thoroughly vetted and verified for safety and professionalism</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="feature-card">
+              <i class="fas fa-calendar-check"></i>
+              <h5>Easy Booking</h5>
+              <p>Simple booking system with instant confirmation and flexible scheduling options</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="feature-card">
+              <i class="fas fa-comments"></i>
+              <h5>Direct Communication</h5>
+              <p>Chat directly with providers before and after booking to ensure your needs are met</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="feature-card">
+              <i class="fas fa-credit-card"></i>
+              <h5>Secure Payments</h5>
+              <p>Safe and transparent payment system with clear invoicing and transaction history</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-3 col-sm-6 stat-item mb-4">
+            <h3 class="fw-bold">500+</h3>
+            <p>Verified Providers</p>
+          </div>
+          <div class="col-md-3 col-sm-6 stat-item mb-4">
+            <h3 class="fw-bold">2000+</h3>
+            <p>Happy Families</p>
+          </div>
+          <div class="col-md-3 col-sm-6 stat-item mb-4">
+            <h3 class="fw-bold">4.8★</h3>
+            <p>Average Rating</p>
+          </div>
+          <div class="col-md-3 col-sm-6 stat-item mb-4">
+            <h3 class="fw-bold">24/7</h3>
+            <p>Customer Support</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        {% if request.user.is_authenticated %}
+          <h2>Ready to Find Childcare Services?</h2>
+          <p class="fs-5 mb-4">Browse our network of trusted providers today</p>
+          <a href="{% url 'service_list' %}" class="btn btn-light">
+            <i class="fas fa-search me-2"></i>Browse Services
+          </a>
+        {% else %}
+          <h2>Join BabyCare Connect Today</h2>
+          <p class="fs-5 mb-4">Find reliable childcare services or grow your provider business</p>
+          <a href="{% url 'register' %}" class="btn btn-light me-3">
+            <i class="fas fa-sign-in-alt me-2"></i>Get Started
+          </a>
+          <a href="{% url 'service_list' %}" class="btn btn-outline-light">
+            <i class="fas fa-search me-2"></i>Browse Services
+          </a>
+        {% endif %}
+      </div>
+    </section>
+
+    {% comment %} <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <h6><i class="fas fa-baby me-2"></i>BabyCare Connect</h6>
+            <p class="text-muted small">Your trusted platform for childcare services and family support.</p>
+          </div>
+          <div class="col-md-2 mb-4">
+            <h6>Quick Links</h6>
+            <ul class="list-unstyled small">
+              <li><a href="{% url 'service_list' %}">Browse Services</a></li>
+              <li><a href="{% url 'register' %}">Sign Up</a></li>
+              {% if request.user.is_authenticated %}
+                <li><a href="{% url 'inbox' %}">Messages</a></li>
+              {% endif %}
+            </ul>
+          </div>
+          <div class="col-md-2 mb-4">
+            <h6>Support</h6>
+            <ul class="list-unstyled small">
+              <li><a href="#!">Help Center</a></li>
+              <li><a href="#!">Contact Us</a></li>
+              <li><a href="#!">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="col-md-2 mb-4">
+            <h6>Company</h6>
+            <ul class="list-unstyled small">
+              <li><a href="#!">About Us</a></li>
+              <li><a href="#!">Blog</a></li>
+              <li><a href="#!">Careers</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 BabyCare Connect. All rights reserved. | <a href="#!" style="color: #999;">Privacy Policy</a> | <a href="#!" style="color: #999;">Terms of Service</a></p>
+        </div>
+      </div>
+    </footer> {% endcomment %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+      // Scroll reveal animation
+      const reveals = document.querySelectorAll('.reveal');
+      
+      function reveal() {
+        reveals.forEach(element => {
+          const windowHeight = window.innerHeight;
+          const elementTop = element.getBoundingClientRect().top;
+          const elementVisible = 150;
+          
+          if (elementTop < windowHeight - elementVisible) {
+            element.classList.add('active');
+          }
+        });
+      }
+      
+      window.addEventListener('scroll', reveal);
+      reveal(); // Initial check on load
+
+      // Animated counter for statistics
+      function animateCounters() {
+        const counters = document.querySelectorAll('.stat-item h3');
+        const duration = 2000; // 2 seconds
+        
+        counters.forEach(counter => {
+          const text = counter.innerText;
+          const finalValue = parseInt(text.replace(/\D/g, ''));
+          const suffix = text.replace(/\d/g, '');
+          const increment = finalValue / (duration / 16); // 60fps
+          
+          let currentValue = 0;
+          const startTime = Date.now();
+          
+          const updateCounter = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            currentValue = Math.floor(finalValue * progress);
+            counter.innerText = currentValue + suffix;
+            
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            } else {
+              counter.innerText = text;
+            }
+          };
+          
+          // Trigger counter animation when stats section becomes visible
+          setTimeout(() => {
+            const statsSection = document.querySelector('.stats-section');
+            const observer = new IntersectionObserver(entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  updateCounter();
+                  observer.unobserve(entry.target);
+                }
+              });
+            });
+            observer.observe(document.querySelector('.stats-section'));
+          }, 100);
+        });
+      }
+
+      // Call counter animation on page load
+      window.addEventListener('load', animateCounters);
+
+      // Add animation classes to service and feature cards
+      document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.service-card, .feature-card');
+        cards.forEach(card => card.classList.add('reveal'));
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Mouse move parallax effect on hero section
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        document.addEventListener('mousemove', (e) => {
+          const moveX = e.clientX / window.innerWidth;
+          const moveY = e.clientY / window.innerHeight;
+          hero.style.backgroundPosition = `${moveX * 10}px ${moveY * 10}px`;
+        });
+      }
+
+      // Button ripple effect
+      document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.width = ripple.style.height = size + 'px';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          ripple.classList.add('ripple');
+          
+          this.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 600);
+        });
+      });
+    </script>
+  </body>
+</html>
+{% endblock content %}

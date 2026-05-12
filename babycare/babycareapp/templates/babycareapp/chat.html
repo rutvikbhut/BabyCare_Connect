@@ -1,0 +1,108 @@
+{% extends "babycareapp/nav.html" %} {% block content %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat - BabyCare Connect</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+      <div class="container mt-4">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <span>Chat with {{ receiver.first_name }}</span>
+
+            {% if receiver.is_online %}
+            <span class="badge bg-success rounded-pill">
+              <i class="bi bi-circle-fill" style="font-size: 0.6rem"></i> Online
+            </span>
+            {% else %}
+            <small class="text-light">
+              Last seen: {{ receiver.last_activity|timesince }} ago
+            </small>
+            {% endif %}
+          </div>
+          <div class="card-body" style="height: 400px; overflow-y: auto">
+            {% for msg in chat_messages %}
+            <div
+              class="mb-3 {% if msg.sender == request.user %}text-end{% endif %}"
+            >
+              <div
+                class="d-inline-block p-2 rounded {% if msg.sender == request.user %}bg-primary text-white{% else %}bg-light border{% endif %}"
+              >
+                {{ msg.content }}
+                <br />
+                <div
+                  class="d-flex justify-content-end align-items-center"
+                  style="font-size: 0.7rem"
+                >
+                  <span class="me-1">{{ msg.timestamp|date:"H:i" }}</span>
+
+                  {% if msg.sender == request.user %} 
+                    {% if msg.is_read %}
+                      <i class="bi bi-check2-all text-info" title="Read"></i>
+                    {% else %}
+                      <i class="bi bi-check2 text-white-50" title="Sent"></i>
+                    {% endif %} 
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="card-footer">
+            <div id="typing-indicator" style="display: none" class="ps-2 mb-2">
+              <small class="text-muted d-flex align-items-center">
+                <div
+                  class="spinner-grow spinner-grow-sm text-primary me-2"
+                  role="status"
+                  style="width: 0.7rem; height: 0.7rem"
+                ></div>
+                <em>{{ receiver.first_name }} is typing...</em>
+              </small>
+            </div>
+            <form method="POST" class="d-flex">
+              {% csrf_token %}
+              <input
+                type="text"
+                name="content"
+                class="form-control me-2"
+                placeholder="Type a message..."
+              />
+              <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+  <script>
+    const chatInput = document.querySelector('input[name="content"]');
+    const receiverId = "{{ receiver.id }}";
+    let typingTimeout;
+
+    // 1. Tell the server I am typing
+    chatInput.addEventListener("keypress", () => {
+      fetch(`/update-typing/?typing=true&receiver_id=${receiverId}`);
+
+      clearTimeout(typingTimeout);
+      typingTimeout = setTimeout(() => {
+        fetch(`/update-typing/?typing=false&receiver_id=${receiverId}`);
+      }, 3000); // Stop showing "typing" after 3 seconds of silence
+    });
+
+    // 2. Poll the server to see if the OTHER person is typing
+    setInterval(() => {
+      fetch(`/check-typing/${receiverId}/`)
+        .then((response) => response.json())
+        .then((data) => {
+          const indicator = document.getElementById("typing-indicator");
+          indicator.style.display = data.is_typing ? "block" : "none";
+        });
+    }, 2000); // Check every 2 seconds
+  </script>
+</html>
+{% endblock content %}
